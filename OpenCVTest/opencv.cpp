@@ -285,7 +285,7 @@ void detectNewUser(Mat &frame, int &j, string name)
 }
 
 
-int main() {
+/*int main() {
     //recognize();
     vector<string> label;
     label.push_back("Kevin");
@@ -293,15 +293,15 @@ int main() {
     label.push_back("Archit");
     label.push_back("John");
     
-//    string name;
-//    cin >> name;
+//  string name;
+//  cin >> name;
 //    
-//    label.push_back(name);
+//  label.push_back(name);
 //    
-//    addNewUser(name,label);
+//  addNewUser(name,label);
     recognize(label);
     return 0;
-}
+}*/
 
 
 
