@@ -14,6 +14,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/objdetect/objdetect.hpp>
+#include <vector>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -22,11 +23,14 @@ using namespace std;
 
 class OpenCV {
 private:
+    vector<string> label;
+    void opencv::detectNewUser(Mat &frame, int &j, string name);
+    string TRAINEDMODEL = "trainedmodel.yaml";
     
 public:
     string recognize();
-    void addNewUser();
-
+    void addNewUser(string name, vector<User> users)
+    
 };
 
 #endif /* recognize_h */

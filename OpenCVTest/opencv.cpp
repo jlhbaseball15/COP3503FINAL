@@ -1,79 +1,10 @@
-
 #include "opencv.h"
 
-#include<sstream>
-
 using namespace cv;
-
 using namespace std;
 
 
-string TRAINEDMODEL = "trainedmodel.yaml";
-
-void detectNewUser(Mat &frame, int &j, string name);
-
-void read_csv(const string& filename, vector<Mat>& images, vector<int>& labels, char separator = ';')
-{
-    
-    std::ifstream file(filename.c_str(), ifstream::in);
-    
-    if (!file)
-    {
-        string error_message = "No valid input file was given, please check the given filename.";
-        
-        cout<<endl;
-        
-        CV_Error(CV_StsBadArg, error_message);
-    }
-    
-    string line, path, classlabel;
-    
-    while (getline(file, line))
-    {
-        
-        stringstream liness(line);
-        getline(liness, path, separator);
-        getline(liness, classlabel);
-        
-        if(!path.empty() && !classlabel.empty())
-        {
-            images.push_back(imread(path, 0));
-            labels.push_back(atoi(classlabel.c_str()));
-        }
-    }
-}
-
-
-
-string g_listname_t[]=
-{
-    "Archit Rathi",
-    "Brad Pitt",
-    
-};
-
-
-
-void trainModel(){
-    
-}
-
-void recognize(vector<string> label) {
-    // Check for valid command line arguments, print usage
-    // if no arguments were given.
-    //if (argc != 4) {
-    //    cout << "usage: " << argv[0] << " </path/to/haar_cascade> </path/to/csv.ext> </path/to/device id>" << endl;
-    //    cout << "\t </path/to/haar_cascade> -- Path to the Haar Cascade for face detection." << endl;
-    //    cout << "\t </path/to/csv.ext> -- Path to the CSV file with the face database." << endl;
-    //    cout << "\t <device id> -- The webcam device id to grab frames from." << endl;
-    //    exit(1);
-    //}
-    //// Get the path to your CSV:
-    //string fn_haar = string(argv[1]);
-    //string fn_csv = string(argv[2]);
-    //int deviceId = atoi(argv[3]);
-    //// Get the path to your CSV:
-    // please set the correct path based on your folder
+User OpenCV::recognize(vector<User> users) {
     string fn_haar = "haarcascade_frontalface_alt.xml";
     //string fn_csv = "/Users/Archit/Downloads/DetectsAndRecognizeFaces/Python\ script/csv.ext";
     int deviceId = 0;			// here is my webcam Id.
@@ -101,9 +32,11 @@ void recognize(vector<string> label) {
     if(!cap.isOpened()) {
         cerr << "Capture Device ID " << deviceId << "cannot be opened." << endl;
     }
-    // Holds the current frame from the Video device:
+    // Holds the current frame from the Video device
     Mat frame;
-    for(;;) {
+    int[] predictions = new int[users.size()];
+    
+    for(int i = 0; i < 50; i++) {
         cap >> frame;
         // Clone the current frame:
         Mat original = frame.clone();
@@ -147,13 +80,15 @@ void recognize(vector<string> label) {
             // Get stringname
             if ( prediction >= 0)
             {
-                cout<<label[prediction]<<'\n';
+                cout<<users[prediction]->name<<'\n';
                 cout << confidence << endl;
-                box_text.append( label[prediction] );
+                predictions[prediction]++;
+                //box_text.append( users[prediction]->name );
+                
                 
             }
             else {
-                box_text.append( "User Unknown" );
+                box_text.append("User Unknown");
                 cout << confidence << endl;
             }
             // Calculate the position for annotated text (make sure we don't
@@ -176,9 +111,17 @@ void recognize(vector<string> label) {
             break;
     }
     
+    for (int i = 0; i < predictions.size; i++) {
+        double mass = predictions[i] / 50;
+        if (mass > 0.60) {
+            return users[i];
+        }
+    }
+    return nullptr;
+    
 }
 
-void addNewUser(string name, vector<string> &labels){
+void OpenCV::addNewUser(string name, vector<User> users){
     VideoCapture capture;
     Mat frame;
     
@@ -191,7 +134,9 @@ void addNewUser(string name, vector<string> &labels){
     int count = 0;
     
     string folder = name;
+    string mkdirCropped = "mkdir cropped";
     string folderCreateCommand = "mkdir cropped/" + folder;
+    system(mkdirCropped.c_str());
     system(folderCreateCommand.c_str());
 
     while (capture.read(frame) && (count < 50))
@@ -216,15 +161,15 @@ void addNewUser(string name, vector<string> &labels){
     capture.release();
     
     string path = "cropped/";
+    
     vector<Mat> images;
     vector<int> nameIndex;
-    
-    vector<string>::iterator it;
+    vector<User>::iterator it;
     int i = 0;
     for(it = labels.begin() ; it < labels.end(); it++, i++) {
         // found nth element..print and break.
         for (int j = 0; j < 50; j++){
-            string file = path + *it + "/" + to_string(j) + ".jpg";
+            string file = path + *it->name + "/" + to_string(j) + ".jpg";
             Mat image = imread(file, 0);
             Mat newImage;
             cv::resize(image, newImage, Size(200, 200), 0, 0, INTER_LINEAR);
@@ -233,13 +178,15 @@ void addNewUser(string name, vector<string> &labels){
         }
     }
     
+    
+    //trains the new model
     Ptr<FaceRecognizer> model = createFisherFaceRecognizer();
     model->train(images,nameIndex);
     model->save(TRAINEDMODEL);
     
 }
 
-void detectNewUser(Mat &frame, int &j, string name)
+void OpenCV::detectNewUser(Mat &frame, int &j, string name)
 {
     Mat cropped;
     std::vector<Rect> faces;
@@ -276,12 +223,8 @@ void detectNewUser(Mat &frame, int &j, string name)
         cout << "cropped/" + folder + "/" + to_string(j) + ".jpg" << endl;
         j++;
     }
-    
-    
         //-- In each face, detect eyes
         //-- Show what you got
-    
-    
 }
 
 
