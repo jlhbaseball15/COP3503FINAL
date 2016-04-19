@@ -1,15 +1,15 @@
 #include <iostream>
-#include "newUser.h"
+#include "User.h"
 #include <string>
 
 using namespace std;
 
-newUser::newUser()
+User::User()
 {
     
 }
 
-newUser::newUser(string name, string birthday, string height, string gender, string color){
+User::User(string name, string birthday, string height, string gender, string color){
     this->name = name;
     this->birthday = birthday;
     this->height = height;
@@ -18,103 +18,112 @@ newUser::newUser(string name, string birthday, string height, string gender, str
 }
 
 
+void User::print(){
+    cout<<"Name: "<<this->name<<'\n';
+    cout<<"Birthday: "<<this->birthday<<'\n';
+    cout<<"Height: "<<this->height<<'\n';
+    cout<<"Gender: "<<this->gender<<'\n';
+    cout<<"Color: "<<this->color<<'\n';
+    
+}
 
-void newUser::setName(string name)
+
+void User::setName(string name)
 {
     this->name = name;
 }
 
-string newUser::getName()
+string User::getName()
 {
     return this->name;
 }
 
-void newUser::setBirthday(int day, int month, int year)
+void User::setBirthday(int day, int month, int year)
 {
     this->birthday = to_string(day) + "/" + to_string(month) + "/" + to_string(month);
 }
 
-string newUser::getBirthday()
+string User::getBirthday()
 {
     return this->birthday;
 }
 
-void newUser::setHeight(int feet, int inches)
+void User::setHeight(int feet, int inches)
 {
     this->height = to_string(feet) + "\'"  + to_string(inches) + "\"";
 }
 
-string newUser::getHeight()
+string User::getHeight()
 {
     return this->height;
 }
 
-void newUser::setGender(string gender)
+void User::setGender(string gender)
 {
     this->gender = gender;
 }
 
-string newUser::getGender()
+string User::getGender()
 {
     return this->gender;
 }
 
-void newUser::setColor(string color)
+void User::setColor(string color)
 {
     this->color = color;
 }
 
-string newUser::getColor()
+string User::getColor()
 {
     return this->color;
 }
 
-int newUser::getDay()
+int User::getDay()
 {
     return this->day;
 }
 
-int newUser::getMonth()
+int User::getMonth()
 {
     return this->month;
 }
 
-void newUser ::setMonth(int month)
+void User ::setMonth(int month)
 {
     this->month = month;
 }
-void newUser::setDay(int day)
+void User::setDay(int day)
 {
     this->day=day;
 }
 
-void newUser::setYear(int year)
+void User::setYear(int year)
 {
     this->year=year;
 }
 
-int newUser::getFeet()
+int User::getFeet()
 {
     return this->feet;
 }
 
-int newUser::getInches()
+int User::getInches()
 {
     return this->inches;
 }
 
-void newUser::setFeet(int feet)
+void User::setFeet(int feet)
 {
     this->feet=feet;
 }
 
-void newUser::setInches(int inches)
+void User::setInches(int inches)
 {
     this->inches=inches;
 }
 
 
-void newUser::writeToFile()
+void User::writeToFile()
 {
     ofstream myfile;
     myfile.open("user.csv", ofstream :: app);

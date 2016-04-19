@@ -18,18 +18,20 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include "User.h"
 
 using namespace std;
+using namespace cv;
 
 class OpenCV {
 private:
     vector<string> label;
-    void opencv::detectNewUser(Mat &frame, int &j, string name);
+    void detectNewUser(Mat &frame, int &j, string name);
     string TRAINEDMODEL = "trainedmodel.yaml";
     
 public:
-    string recognize();
-    void addNewUser(string name, vector<User> users)
+    string recognize(vector<User> users);
+    void addNewUser(string name, vector<User> users);
     
 };
 

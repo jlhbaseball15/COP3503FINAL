@@ -1,10 +1,10 @@
-#include "opencv.h"
+#include "OpenCV.h"
 
 using namespace cv;
 using namespace std;
 
 
-User OpenCV::recognize(vector<User> users) {
+string OpenCV::recognize(vector<User> users) {
     string fn_haar = "haarcascade_frontalface_alt.xml";
     //string fn_csv = "/Users/Archit/Downloads/DetectsAndRecognizeFaces/Python\ script/csv.ext";
     int deviceId = 0;			// here is my webcam Id.
@@ -34,7 +34,9 @@ User OpenCV::recognize(vector<User> users) {
     }
     // Holds the current frame from the Video device
     Mat frame;
-    int[] predictions = new int[users.size()];
+    
+    vector<string> predictions;
+    predictions.reserve(users.size());
     
     for(int i = 0; i < 50; i++) {
         cap >> frame;
@@ -80,15 +82,15 @@ User OpenCV::recognize(vector<User> users) {
             // Get stringname
             if ( prediction >= 0)
             {
-                cout<<users[prediction]->name<<'\n';
-                cout << confidence << endl;
-                predictions[prediction]++;
+                cout<<users[prediction].name<<'\n';
+                //cout << confidence << endl;
+                predictions.push_back(users[prediction].name);
                 //box_text.append( users[prediction]->name );
                 
                 
             }
             else {
-                box_text.append("User Unknown");
+                //box_text.append("User Unknown");
                 cout << confidence << endl;
             }
             // Calculate the position for annotated text (make sure we don't
@@ -102,6 +104,7 @@ User OpenCV::recognize(vector<User> users) {
         if (faces.size() > 1) {
             
         }
+        
         // Show the result:
         imshow("face_recognizer", original);
         // And display it:
@@ -111,14 +114,53 @@ User OpenCV::recognize(vector<User> users) {
             break;
     }
     
-    for (int i = 0; i < predictions.size; i++) {
-        double mass = predictions[i] / 50;
-        if (mass > 0.60) {
-            return users[i];
+    cout << "predictions:" << &predictions << endl;
+    vector<int>::iterator it;
+    int i = 0;
+    
+    
+    sort( predictions.begin( ), predictions.end( ), [ ]( const string& lhs, const string& rhs )
+    {
+             return lhs < rhs;
+    });
+    
+    
+    
+    string current = predictions.front();
+    string name = "";
+    int greaterCount = 0;
+    int count=0;
+    for(vector<string>::size_type i = 1; i != predictions.size(); i++) {
+        if(current==predictions.at(i)){
+            count++;
+            
+            if(i==predictions.size()-1){
+                if(count>greaterCount){
+                    greaterCount = count;
+                    name = current;
+                }
+                current = predictions.at(i);
+                
+            }
+        }
+        else{
+            if(count>greaterCount){
+                greaterCount = count;
+                name = current;
+            }
+            current = predictions.at(i);
         }
     }
-    return nullptr;
+
     
+    
+    double mass = double(greaterCount)/predictions.size();
+    if(mass>.6){
+        return name;
+    }
+    User none = *new User();
+
+    return "No User Found";
 }
 
 void OpenCV::addNewUser(string name, vector<User> users){
@@ -166,10 +208,10 @@ void OpenCV::addNewUser(string name, vector<User> users){
     vector<int> nameIndex;
     vector<User>::iterator it;
     int i = 0;
-    for(it = labels.begin() ; it < labels.end(); it++, i++) {
+    for(it = users.begin() ; it < users.end(); it++, i++) {
         // found nth element..print and break.
         for (int j = 0; j < 50; j++){
-            string file = path + *it->name + "/" + to_string(j) + ".jpg";
+            string file = path + it->name + "/" + to_string(j) + ".jpg";
             Mat image = imread(file, 0);
             Mat newImage;
             cv::resize(image, newImage, Size(200, 200), 0, 0, INTER_LINEAR);
@@ -228,23 +270,6 @@ void OpenCV::detectNewUser(Mat &frame, int &j, string name)
 }
 
 
-/*int main() {
-    //recognize();
-    vector<string> label;
-    label.push_back("Kevin");
-    label.push_back("Susanne");
-    label.push_back("Archit");
-    label.push_back("John");
-    
-//  string name;
-//  cin >> name;
-//    
-//  label.push_back(name);
-//    
-//  addNewUser(name,label);
-    recognize(label);
-    return 0;
-}*/
 
 
 

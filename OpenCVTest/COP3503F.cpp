@@ -1,17 +1,17 @@
 #include <iostream>
 #include <fstream>
-#include "newUser.h"
 #include <string>
-#include "Login.h"
 #include <vector>
 #include <sstream>
 #include <iomanip>
+#include "Login.h"
+#include "OpenCV.h"
 
 using namespace std;
 
 
 
-vector<newUser> program_users;
+vector<User> program_users;
 string name = "";
 int day = 0;
 int month = 0;
@@ -20,12 +20,13 @@ int feet = 0;
 int inches = 0;
 string gender = "";
 string color = "";
-
+OpenCV* recognizer = new OpenCV();
 
 int main()
 {
     
-    ifstream myFile("/Users/Archit/Documents/OpenCVTest/OpenCVTest/user.csv");
+    
+    ifstream myFile("user.csv");
     string line;
     while (getline(myFile, line))
     {
@@ -58,8 +59,8 @@ int main()
             }
             
         }
-        newUser* swag = new newUser(a,b,c,d,e);
-        program_users.push_back(*swag);
+        User* temp = new User(a,b,c,d,e);
+        program_users.push_back(*temp);
         
     }
     
@@ -67,7 +68,7 @@ int main()
     
 
     
-    sort( program_users.begin( ), program_users.end( ), [ ]( const newUser& lhs, const newUser& rhs )
+    sort( program_users.begin( ), program_users.end( ), [ ]( const User& lhs, const User& rhs )
     {
         return lhs.name < rhs.name;
     });
@@ -155,13 +156,11 @@ int main()
         {
             cout << "================================";
             cout << endl;
-            cout << endl;
             cout << "Login";
             cout << endl;
-            cout << "1. Input User Name"; //Open OpenCV once they figure out how to implement it
+            cout << "1. Recognize"; //Open OpenCV once they figure out how to implement it
             cout << endl;
             cout << "2. Exit";
-            cout << endl;
             cout << endl;
             cout << "Choose an option: ";
             int n;
@@ -172,11 +171,29 @@ int main()
             if (n == 1)
                 //facial recognition would pop up instead of asking for the username
             {
-                string n;
-                cout << "Username: ";
-                cin >> n;
                 
+                string user = recognizer->recognize(program_users);
                 
+                if (user == "No User Found"){
+                    cout << "No User was Found." << endl;
+                    cout << "=====================================================================\n\n";
+                    cout << "Computer Vision Recognition System Acquisition Mission Menu\n\n";
+                    cout << "1. Login\n";
+                    cout << "2. Add User\n";
+                    cout << "3. Exit\n\n";
+                    cout << "================================\n\n";
+                    continue;
+                }
+                else {
+                    vector<User>::iterator it;
+                    for(it = program_users.begin(); it < program_users.end(); it++){
+                        if (it->getName() == user) {
+                            it->print();
+                        }
+                    }
+                }
+                
+
                 // ifstream myFile("user.csv");
                 // string line;
                 // while (getline(myFile, line))
@@ -190,12 +207,20 @@ int main()
                 //     }
                 // }
                 
+            } else if (n == 2){
+                cout << "=====================================================================\n\n";
+                cout << "Computer Vision Recognition System Acquisition Mission Menu\n\n";
+                cout << "1. Login\n";
+                cout << "2. Add User\n";
+                cout << "3. Exit\n\n";
+                cout << "================================\n\n";
+                continue;
             }
         }
         
         else if (n == 2)
         {
-            newUser* users = new newUser();
+            User* users = new User();
             cout << "Ready to create a new user!" << endl;
             cout << "Please type in a username that is between 1 and 15 characters inclusive: ";
             cout << endl;
@@ -534,26 +559,29 @@ int main()
             
             users->setColor(color);
             
-            newUser* temp = new newUser(name, birthday, height, gender, color);
+            User* temp = new User(name, birthday, height, gender, color);
             
             program_users.push_back(*temp);
             
             
-            sort( program_users.begin( ), program_users.end( ), [ ]( const newUser& lhs, const newUser& rhs )
+            sort( program_users.begin( ), program_users.end( ), [ ]( const User& lhs, const User& rhs )
             {
-                     return lhs.name < rhs.name;
+                    return lhs.name < rhs.name;
             });
             
+            recognizer->addNewUser(name, program_users);
             
             //cout<<(program_users.back()).name<<endl;
             
             users->writeToFile();
             
             cout << "=====================================================================\n\n";
+            
             cout << "Computer Vision Recognition System Acquisition Mission Menu\n\n";
             cout << "1. Login\n";
             cout << "2. Add User\n";
             cout << "3. Exit\n\n";
+            
             cout << "================================\n\n";
             
             

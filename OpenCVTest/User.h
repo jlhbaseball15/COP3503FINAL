@@ -9,7 +9,7 @@
 using namespace std;
 
 
-class newUser
+class User
 {
     
     
@@ -27,8 +27,8 @@ public:
     string color = "";
     string birthday = "";
     
-    newUser();
-    newUser(string name, string birthday, string height, string gender, string color);
+    User();
+    User(string name, string birthday, string height, string gender, string color);
     void writeToFile();
     
     void setName(string name);
@@ -44,6 +44,8 @@ public:
     int getInches();
     void setFeet(int feet);
     void setInches(int inches);
+    
+    void print();
     
     void setHeight(int feet, int inches);
     string getHeight();
