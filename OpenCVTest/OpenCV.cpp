@@ -5,6 +5,10 @@ using namespace std;
 
 
 string OpenCV::recognize(vector<User> users) {
+    
+
+
+    
     string fn_haar = "haarcascade_frontalface_alt.xml";
     //string fn_csv = "/Users/Archit/Downloads/DetectsAndRecognizeFaces/Python\ script/csv.ext";
     int deviceId = 0;			// here is my webcam Id.
@@ -83,7 +87,7 @@ string OpenCV::recognize(vector<User> users) {
             if ( prediction >= 0)
             {
                 cout<<users[prediction].name<<'\n';
-                //cout << confidence << endl;
+                cout << confidence << endl;
                 predictions.push_back(users[prediction].name);
                 //box_text.append( users[prediction]->name );
                 
@@ -114,7 +118,7 @@ string OpenCV::recognize(vector<User> users) {
             break;
     }
     
-    cout << "predictions:" << &predictions << endl;
+    //cout << "predictions:" << &predictions << endl;
     vector<int>::iterator it;
     int i = 0;
     
@@ -156,7 +160,7 @@ string OpenCV::recognize(vector<User> users) {
     
     double mass = double(greaterCount)/predictions.size();
     if(mass>.6){
-        return name;
+                return name;
     }
     User none = *new User();
 
@@ -164,6 +168,13 @@ string OpenCV::recognize(vector<User> users) {
 }
 
 void OpenCV::addNewUser(string name, vector<User> users){
+    
+    
+    
+    
+
+    
+    
     VideoCapture capture;
     Mat frame;
     
@@ -195,7 +206,6 @@ void OpenCV::addNewUser(string name, vector<User> users){
         string window_name = "Capture - Face detection";
         namedWindow(window_name, WINDOW_AUTOSIZE );
         imshow(window_name, frame);
-        
         int c = waitKey(10);
         if( (char)c == 27 ) { break; }
     }
@@ -211,10 +221,14 @@ void OpenCV::addNewUser(string name, vector<User> users){
     for(it = users.begin() ; it < users.end(); it++, i++) {
         // found nth element..print and break.
         for (int j = 0; j < 50; j++){
-            string file = path + it->name + "/" + to_string(j) + ".jpg";
+            string file = path + name + "/" + to_string(j) + ".jpg";
             Mat image = imread(file, 0);
             Mat newImage;
-            cv::resize(image, newImage, Size(200, 200), 0, 0, INTER_LINEAR);
+            
+                cv::resize(image, newImage, Size(200, 200), 0, 0, INTER_LINEAR);
+           
+            
+            
             images.push_back(newImage);
             nameIndex.push_back(i);
         }
@@ -223,8 +237,11 @@ void OpenCV::addNewUser(string name, vector<User> users){
     
     //trains the new model
     Ptr<FaceRecognizer> model = createFisherFaceRecognizer();
+    cout<<"asdasdfasdffasf"<<endl;
     model->train(images,nameIndex);
+    cout<<"asdfasf"<<endl;
     model->save(TRAINEDMODEL);
+    cout<<"Swagm oney"<<endl;
     
 }
 

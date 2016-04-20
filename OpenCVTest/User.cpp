@@ -127,11 +127,12 @@ void User::writeToFile()
 {
     ofstream myfile;
     myfile.open("user.csv", ofstream :: app);
+    myfile << '\n';
     myfile << this->name <<",";
     myfile << this->day << "/" << this->month << "/" << this->year << ",";
     myfile << this->feet << "\' " << this->inches << "\"" << ",";
     myfile << this->gender << ",";
-    myfile << this->color << endl;
+    myfile << this->color << "\n";
     
     myfile.close();
     
