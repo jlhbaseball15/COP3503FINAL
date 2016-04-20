@@ -114,6 +114,9 @@ int main()
     cout << "Welcome to the Computer Vision Recognition System Acquisition Mission";
     // Title of the project
     
+    
+    // Main Menu
+    
     cout << endl;
     cout << endl;
     cout << "1. Login";
@@ -139,10 +142,10 @@ int main()
         int n;
         
         // The user should not be able to input anything but
-        // an integer and this method should check for it
+        //      an integer and this method should check for it
         
         // Note : also add to other options where an integer
-        // is inputted as an option
+        //      is inputted as an option
         
         
         /////////////////////////////
@@ -194,7 +197,9 @@ int main()
             cout << endl;
             cout << "Login";
             cout << endl;
-            cout << "1. Recognize"; //Open OpenCV once they figure out how to implement it
+            cout << "1. Recognize"; 
+            //Open OpenCV once they figure out how to implement it
+            
             cout << endl;
             cout << "2. Exit";
             cout << endl;
@@ -209,9 +214,19 @@ int main()
             {
                 
                 string user = recognizer->recognize(program_users);
+                //This would take all of the pictures and associate it with a user
                 
-                if (user == "No User Found"){
+                // There should be a total of 49 pictures taken
+                
+                // Make sure to keep a straight face and not have anyone else in the
+                //      field of view of the webcam!
+                
+                if (user == "No User Found")
+                {
                     cout << "No User was Found." << endl;
+                    
+                    //Restarts the main menu if it doesn't recognize the face
+                    
                     cout << "=====================================================================\n\n";
                     cout << "Computer Vision Recognition System Acquisition Mission Menu\n\n";
                     cout << "1. Login\n";
@@ -220,8 +235,14 @@ int main()
                     cout << "================================\n\n";
                     continue;
                 }
-                else {
+                else
+                // If the user is found
+                
+                {
                     vector<User>::iterator it;
+                    // Scan through the vector of users
+                    
+                    
                     for(it = program_users.begin(); it < program_users.end(); it++){
                         if (it->getName() == user) {
                             it->print();
