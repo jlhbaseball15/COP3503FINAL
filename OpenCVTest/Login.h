@@ -1,3 +1,11 @@
+//
+//  Login.h
+//  OpenCVTest
+//
+//  Created by Archit Rathi on 4/17/16.
+//  Copyright © 2016 Archit Rathi. All rights reserved.
+//
+
 #include <string>
 
 using namespace std;
