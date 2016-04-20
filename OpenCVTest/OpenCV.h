@@ -21,9 +21,11 @@
 #include "User.h"
 
 using namespace std;
+
 using namespace cv;
 
-class OpenCV {
+class OpenCV 
+{
 private:
     vector<string> label;
     void detectNewUser(Mat &frame, int &j, string name);
@@ -31,7 +33,9 @@ private:
     
 public:
     string recognize(vector<User> users);
+    
     void addNewUser(string name, vector<User> users);
+    
     
 };
 
