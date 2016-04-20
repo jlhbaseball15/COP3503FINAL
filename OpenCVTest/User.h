@@ -1,3 +1,12 @@
+//
+//  User.h
+//  OpenCVTest
+//
+//  Created by Archit Rathi on 4/17/16.
+//  Copyright © 2016 Archit Rathi. All rights reserved.
+//
+
+
 #include <string>
 #include <iostream>
 #include <string>
