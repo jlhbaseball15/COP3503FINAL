@@ -10,7 +10,7 @@
 using namespace std;
 
 
-
+//initiates variables for class
 vector<User> program_users;
 string name = "";
 int day = 0;
@@ -169,7 +169,7 @@ int main()
                 
             }
             
-            //checks for range/odd
+            //checks for range
             
             if(n < 1 || n > 3)
             {
@@ -288,8 +288,10 @@ int main()
                 //check for username already being used?
                 if(name.length() > 15)
                 {
+                    //lets user know that they need a shorter name
                     cout << "That username is too long!";
                     cout << endl;
+                    //re-asks user for appropriate name
                     cout << "Please type in a username that is between 1 and 15 characters inclusive: ";
                     cout << endl;
                     cin >> name;
@@ -298,8 +300,10 @@ int main()
                 }
                 else
                 {
+                    //lets user know that they need a longer name
                     cout << "That username is too short!";
                     cout << endl;
+                    //re-initiates username request
                     cout << "Please type in a username that is between 1 and 15 characters inclusive: ";
                     cout << endl;
                     cin >> name;
@@ -316,6 +320,7 @@ int main()
             ///////////////////////////
             cout << "Please type the day you were born";
             cout << endl;
+            //gives ecample of input to user
             cout << "\tFor example, a person born on the 22nd day of the month would enter the number 22";
             cout << endl;
             
@@ -331,17 +336,21 @@ int main()
                     
                     cin.clear();
                     cin.ignore(1000, '\n');
+                    
+                    //asks user for month
                     cout << "Please enter a number that is a day of the month" << endl;
                     continue;
                     
                 }
                 
-                //checks for range/odd
+                
+                //checks for range
                 n = day;
                 
                 if(n < 1 || n > 31)
                 {
-                    
+                   
+                    //re-iterates request
                     cout<< "Please enter a number that is a day of the month";
                     cout << endl;
                     cin.clear();
@@ -353,6 +362,8 @@ int main()
                 //double checks for decimals and leaves while with proper input
                 else
                 {
+                    
+                    //breaks out of loop
                     n = day;
                     false;
                     break;
@@ -385,6 +396,7 @@ int main()
                     continue;
                     
                 }
+                
                 //checks for decimals
                 
                 n = month;
@@ -426,7 +438,9 @@ int main()
             {
                 
                 cin >> year;
+                
                 //checks for letters
+                
                 cout << endl;
                 if(cin.fail())
                 {
@@ -446,6 +460,8 @@ int main()
                     
                     if(n < 1900)
                     {
+                        
+                        //checks that age isnt riduculously old
                         cout << "There's now way you can be over 116 years old!" << endl;
                         cout<< "Please enter the year you were born in using 4 digits";
                         cout << endl;
@@ -455,6 +471,7 @@ int main()
                     }
                     else
                     {
+                        //checks that year isnt too far into the future
                         cout << "Are you from the future?";
                         cout << endl;
                         cout<< "Please enter the year you were born in using 4 digits";
@@ -471,23 +488,34 @@ int main()
                 //double checks for decimals and leaves while with proper input
                 else
                 {
+                    //breaks from loop
                     n = year;
                     false;
                     break;
                 }
             }
             
+            //sets day for user
             users->setDay(day);
+            
+            //sets month for user
             users->setMonth(month);
+            
+            //sets year for user
             users->setYear(year);
+            
+            //puts birthday info of user into string format
             string birthday = to_string(day) + "/" + to_string(month) + "/" + to_string(year);
             //////////////////
             ///check height///
             //////////////////
             
             
+            //asks for height
             cout << "Please enter your height in feet and inches";
             cout << endl;
+            
+            //gives example of height
             cout << "\tFor example, a user who is exactly 5 feet would enter 5 for feet and 0 inches";
             cout << endl;
             true;
@@ -497,10 +525,13 @@ int main()
                 
                 cin >> feet;
                 //checks for letters
-                if (cin.fail()) {
+                if (cin.fail()) 
+                {
                     
                     cin.clear();
                     cin.ignore(1000, '\n');
+                    
+                    //re-iterates question
                     cout << "Please enter your height in feet and inches" << endl;
                     continue;
                     
@@ -509,7 +540,10 @@ int main()
                 
                 n = feet;
                 
-                if (n < 0 || n > 10) {
+                if (n < 0 || n > 10) 
+                {
+                    
+                    //re-asks for height
                     cout << "Please enter a reasonable height";
                     cout << endl;
                     cin.clear();
@@ -518,7 +552,10 @@ int main()
                 }
                 
                 //double checks for decimals and leaves while with proper input
-                else {
+                else 
+                {
+                    
+                    //breaks from loop
                     n = feet;
                     false;
                     break;
@@ -533,6 +570,7 @@ int main()
             true;
             while(true)
             {
+                //asks for inches
                 cout << "Inches: " << endl;
                 
                 cin >> inches;
@@ -544,6 +582,8 @@ int main()
                     
                     cin.clear();
                     cin.ignore(1000, '\n');
+                    
+                    //re-iterates inches request
                     cout << "Please enter a number that is between 0 and 11 inclusive" << endl;
                     continue;
                     
@@ -555,6 +595,7 @@ int main()
                 if(n < 0 || n > 11)
                 {
                     
+                    //re-iterates request
                     cout<< "Please enter a number that is between 0 and 11 inclusive";
                     cout << endl;
                     cin.clear();
@@ -566,6 +607,8 @@ int main()
                 //double checks for decimals and leaves while with proper input
                 else
                 {
+                    
+                    //breaks from loop
                     n = inches;
                     false;
                     break;
@@ -573,11 +616,16 @@ int main()
                 
             }
             
+            //sets user feet
             users->setFeet(feet);
+            
+            //sets user inches
             users->setInches(inches);
             
+            //creates string height with feet and inches
             string height = to_string(feet) + "\'"  + to_string(inches) + "\"";
             
+            //asks for gender
             cout << "Please enter your gender as \"Male\", \"Female\", or \"Other\"";
             cout << endl;
             cin >> gender;
@@ -585,9 +633,12 @@ int main()
             while(true)
             {
                 cout << endl;
+                
+                //checks that user entered one of the options
                 if(gender != "Male" && gender != "Female" && gender != "Other" && gender != "male" &&
                    gender != "female" && gender != "other")
                 {
+                    //re0iterates question for gender
                     cout << "Please enter your gender as \"Male\", \"Female\", or \"Other\"";
                     cout << endl;
                     cin >> gender;
@@ -595,11 +646,13 @@ int main()
                 }
                 else
                 {
+                    //breaks from loop
                     false;
                     break;
                 }
             }
             
+            //sets gedner info for user
             users->setGender(gender);
             cout << endl;
             
@@ -614,6 +667,7 @@ int main()
             
             cout << endl;
             
+            //sets color for user
             users->setColor(color);
             
             User* temp = new User(name, birthday, height, gender, color);
@@ -630,8 +684,12 @@ int main()
             
             //cout<<(program_users.back()).name<<endl;
             
+            //writes user and user info to csv file for openCV/records to be re-outputed when recognized
+            //by the camera
             users->writeToFile();
             
+            
+            //re prints menu options
             cout << "=====================================================================\n\n";
             
             cout << "Computer Vision Recognition System Acquisition Mission Menu\n\n";
@@ -645,6 +703,8 @@ int main()
         }
         else if (n == 3)
         {
+            
+            //prints out end message
             cout << "================================";
             cout << endl;
             cout << endl;
@@ -653,6 +713,8 @@ int main()
             cout << endl;
             cout << "=====================================================================";
             cout << endl;
+            
+            //exits overall loop thus ending code and program
             statement = false;
         }
     } while (statement == true);
