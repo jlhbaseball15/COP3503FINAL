@@ -25,47 +25,74 @@ OpenCV* recognizer = new OpenCV();
 int main()
 {
     
+    //////////////////////////////////////
+    ///Initializes reading the csv file///
+    //////////////////////////////////////
     
+    //opens the cv file
     ifstream myFile("user.csv");
     string line;
+    //initializes the line which will be the line it is located on
+    
     while (getline(myFile, line))
+    //goes through the different lines in the csv file
+    
     {
         string a,b,c,d,e;
+        //All the parameters of the user class
+        
         istringstream s(line);
         string field;
         while (getline(s, field,','))
+        //divides the csv file and finds it's parameters by separating through commas
+        
         {
             
             
             
             a = field;
+            // a = name
+            
             while (getline(s, field,','))
             {
+                //makes the strings initialized in the beginning all of the characteristics of the user
+                
                 if (b == "")
                 {
                     b = field;
+                    // b = birthdate
+                    
                 }
                 else if (b != "" && c == "" && d == "")
                 {
                     c = field;
+                    // c = height
+                    
                 }
                 else if (b != "" && c!= "" && d == "")
                 {
                     d = field;
+                    // d = gender
+                    
                 }
                 else{
                     e = field;
+                    // e = favorite color
+                    
                 }
             }
             
         }
         User* temp = new User(a,b,c,d,e);
+        // creates a new user on a new line in the csv file
         program_users.push_back(*temp);
         
     }
     
     
-    
+    ////////////////////////////
+    //////////Sorting//////////
+    //////////////////////////
 
     
     sort( program_users.begin( ), program_users.end( ), [ ]( const User& lhs, const User& rhs )
@@ -85,6 +112,8 @@ int main()
     //All of the '==' will be used to separate the menus for easier viewing
     
     cout << "Welcome to the Computer Vision Recognition System Acquisition Mission";
+    // Title of the project
+    
     cout << endl;
     cout << endl;
     cout << "1. Login";
@@ -103,10 +132,17 @@ int main()
     //////////////////////////
     
     bool statement = true;
+    //do while loop
     do {
         cout << "Choose an option: ";
         cout << endl;
         int n;
+        
+        // The user should not be able to input anything but
+        // an integer and this method should check for it
+        
+        // Note : also add to other options where an integer
+        // is inputted as an option
         
         
         /////////////////////////////
