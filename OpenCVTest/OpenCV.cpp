@@ -39,6 +39,10 @@ string OpenCV::recognize(vector<User> users) {
     // Holds the current frame from the Video device
     Mat frame;
     
+    /////////////////////////////
+    ///creat vector of users////
+    ////////////////////////////
+    
     vector<string> predictions;
     predictions.reserve(users.size());
     
